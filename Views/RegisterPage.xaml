@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:GetHome.ViewModels"
+             xmlns:loc="clr-namespace:GetHome.Localization"
+             x:Class="GetHome.Views.RegisterPage"
+             x:DataType="vm:RegisterViewModel"
+             Shell.NavBarIsVisible="False"
+             Title="{loc:Translate Register_Title}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20,72,20,24" Spacing="20" MaximumWidthRequest="480">
+
+            <!-- Logo -->
+            <HorizontalStackLayout Spacing="12">
+                <Image Source="logo_gethome.svg" WidthRequest="40" HeightRequest="40" VerticalOptions="Center" />
+                <Label Text="GetHome" Style="{StaticResource Headline}" FontSize="28" VerticalOptions="Center" />
+            </HorizontalStackLayout>
+
+            <!-- Sous-titre -->
+                <Label Text="{loc:Translate Register_Tagline}"
+                       Style="{StaticResource Caption}" FontSize="15" />
+
+            <!-- Bannière d'erreur générale -->
+            <Border IsVisible="{Binding HasError}"
+                    StrokeShape="RoundRectangle 16"
+                    Stroke="{StaticResource Error}"
+                    StrokeThickness="1"
+                    Padding="16,12"
+                    BackgroundColor="Transparent">
+                <Label Text="{Binding ErrorMessage}" Style="{StaticResource ErrorText}" FontSize="14" />
+            </Border>
+
+            <!-- Choix du rôle -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                <Border Grid.Column="0" Style="{StaticResource Chip}">
+                    <Border.Triggers>
+                        <DataTrigger TargetType="Border" Binding="{Binding IsLocataireSelected}" Value="True">
+                            <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+                            <Setter Property="Stroke" Value="{StaticResource Primary}" />
+                        </DataTrigger>
+                    </Border.Triggers>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectLocataireCommand}" />
+                    </Border.GestureRecognizers>
+                    <VerticalStackLayout Spacing="2" HorizontalOptions="Center">
+                        <Label Text="{loc:Translate Register_Seeder}" FontFamily="InterSemiBold" HorizontalTextAlignment="Center">
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label" Binding="{Binding IsLocataireSelected}" Value="True">
+                                    <Setter Property="TextColor" Value="{StaticResource White}" />
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
+                        <Label Text="{loc:Translate Register_SeederSub}" Style="{StaticResource Caption}" HorizontalTextAlignment="Center">
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label" Binding="{Binding IsLocataireSelected}" Value="True">
+                                    <Setter Property="TextColor" Value="{StaticResource White}" />
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border Grid.Column="1" Style="{StaticResource Chip}">
+                    <Border.Triggers>
+                        <DataTrigger TargetType="Border" Binding="{Binding IsProprietaireSelected}" Value="True">
+                            <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+                            <Setter Property="Stroke" Value="{StaticResource Primary}" />
+                        </DataTrigger>
+                    </Border.Triggers>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectProprietaireCommand}" />
+                    </Border.GestureRecognizers>
+                    <VerticalStackLayout Spacing="2" HorizontalOptions="Center">
+                        <Label Text="{loc:Translate Register_Owner}" FontFamily="InterSemiBold" HorizontalTextAlignment="Center">
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label" Binding="{Binding IsProprietaireSelected}" Value="True">
+                                    <Setter Property="TextColor" Value="{StaticResource White}" />
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
+                        <Label Text="{loc:Translate Register_OwnerSub}" Style="{StaticResource Caption}" HorizontalTextAlignment="Center">
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label" Binding="{Binding IsProprietaireSelected}" Value="True">
+                                    <Setter Property="TextColor" Value="{StaticResource White}" />
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
+                    </VerticalStackLayout>
+                </Border>
+            </Grid>
+
+            <!-- Nom complet -->
+            <VerticalStackLayout Spacing="8">
+                <Label Text="{loc:Translate Register_FullName}" Style="{StaticResource Subtitle}" FontSize="14" />
+                <Border Style="{StaticResource FieldBorder}">
+                    <Border.Triggers>
+                        <DataTrigger TargetType="Border" Binding="{Binding HasNameError}" Value="True">
+                            <Setter Property="Stroke" Value="{StaticResource Error}" />
+                            <Setter Property="StrokeThickness" Value="1.5" />
+                        </DataTrigger>
+                    </Border.Triggers>
+                    <Entry Text="{Binding FullName}" Placeholder="{loc:Translate Register_FullNamePlaceholder}" IsEnabled="{Binding IsNotBusy}" />
+                </Border>
+                <Label Text="{Binding NameError}" IsVisible="{Binding HasNameError}" Style="{StaticResource ErrorText}" FontFamily="InterSemiBold" />
+            </VerticalStackLayout>
+
+            <!-- Adresse e-mail -->
+            <VerticalStackLayout Spacing="8">
+                <Label Text="{loc:Translate Register_Email}" Style="{StaticResource Subtitle}" FontSize="14" />
+                <Border Style="{StaticResource FieldBorder}">
+                    <Border.Triggers>
+                        <DataTrigger TargetType="Border" Binding="{Binding HasEmailError}" Value="True">
+                            <Setter Property="Stroke" Value="{StaticResource Error}" />
+                            <Setter Property="StrokeThickness" Value="1.5" />
+                        </DataTrigger>
+                    </Border.Triggers>
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                        <Entry Text="{Binding Email}" Placeholder="{loc:Translate Common_EmailPlaceholder}" Keyboard="Email" VerticalOptions="Center" IsEnabled="{Binding IsNotBusy}" />
+                        <Image Grid.Column="1" Source="error_circle.svg" WidthRequest="22" HeightRequest="22"
+                               VerticalOptions="Center" IsVisible="{Binding HasEmailError}" />
+                    </Grid>
+                </Border>
+                <Label Text="{Binding EmailError}" IsVisible="{Binding HasEmailError}" Style="{StaticResource ErrorText}" FontFamily="InterSemiBold" />
+            </VerticalStackLayout>
+
+            <!-- Numéro de téléphone -->
+            <VerticalStackLayout Spacing="8">
+                <Label Text="{loc:Translate Register_Phone}" Style="{StaticResource Subtitle}" FontSize="14" />
+                <Border Style="{StaticResource FieldBorder}">
+                    <Border.Triggers>
+                        <DataTrigger TargetType="Border" Binding="{Binding HasPhoneError}" Value="True">
+                            <Setter Property="Stroke" Value="{StaticResource Error}" />
+                            <Setter Property="StrokeThickness" Value="1.5" />
+                        </DataTrigger>
+                    </Border.Triggers>
+                    <Entry Text="{Binding Phone}" Placeholder="6 50 05 92 05" Keyboard="Telephone" IsEnabled="{Binding IsNotBusy}" />
+                </Border>
+                <Label Text="{Binding PhoneError}" IsVisible="{Binding HasPhoneError}" Style="{StaticResource ErrorText}" FontFamily="InterSemiBold" />
+            </VerticalStackLayout>
+
+            <!-- Mot de passe -->
+            <VerticalStackLayout Spacing="8">
+                <Label Text="{loc:Translate Common_Password}" Style="{StaticResource Subtitle}" FontSize="14" />
+                <Border Style="{StaticResource FieldBorder}">
+                    <Border.Triggers>
+                        <DataTrigger TargetType="Border" Binding="{Binding HasPasswordError}" Value="True">
+                            <Setter Property="Stroke" Value="{StaticResource Error}" />
+                            <Setter Property="StrokeThickness" Value="1.5" />
+                        </DataTrigger>
+                    </Border.Triggers>
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Entry Text="{Binding Password}" Placeholder="{loc:Translate Common_PasswordPlaceholder}"
+                               IsPassword="{Binding IsPasswordHidden}" VerticalOptions="Center" IsEnabled="{Binding IsNotBusy}" />
+                        <ImageButton Grid.Column="1" Source="{Binding PasswordToggleIcon}"
+                                     Command="{Binding TogglePasswordCommand}" BackgroundColor="Transparent"
+                                     WidthRequest="44" HeightRequest="44" Padding="10" VerticalOptions="Center"
+                                     SemanticProperties.Description="{loc:Translate Common_ShowPassword}" />
+                    </Grid>
+                </Border>
+                <Label Text="{loc:Translate Register_PasswordRules}" Style="{StaticResource Caption}" />
+                <Label Text="{Binding PasswordError}" IsVisible="{Binding HasPasswordError}" Style="{StaticResource ErrorText}" FontFamily="InterSemiBold" />
+            </VerticalStackLayout>
+
+            <!-- Confirmation du mot de passe -->
+            <VerticalStackLayout Spacing="8">
+                <Label Text="{loc:Translate Register_Confirm}" Style="{StaticResource Subtitle}" FontSize="14" />
+                <Border Style="{StaticResource FieldBorder}">
+                    <Border.Triggers>
+                        <DataTrigger TargetType="Border" Binding="{Binding HasConfirmError}" Value="True">
+                            <Setter Property="Stroke" Value="{StaticResource Error}" />
+                            <Setter Property="StrokeThickness" Value="1.5" />
+                        </DataTrigger>
+                    </Border.Triggers>
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Entry Text="{Binding ConfirmPassword}" Placeholder="{loc:Translate Register_ConfirmPlaceholder}"
+                               IsPassword="{Binding IsConfirmHidden}" VerticalOptions="Center" IsEnabled="{Binding IsNotBusy}" />
+                        <ImageButton Grid.Column="1" Source="{Binding ConfirmToggleIcon}"
+                                     Command="{Binding ToggleConfirmCommand}" BackgroundColor="Transparent"
+                                     WidthRequest="44" HeightRequest="44" Padding="10" VerticalOptions="Center"
+                                     SemanticProperties.Description="{loc:Translate Common_ShowPassword}" />
+                    </Grid>
+                </Border>
+                <Label Text="{Binding ConfirmError}" IsVisible="{Binding HasConfirmError}" Style="{StaticResource ErrorText}" FontFamily="InterSemiBold" />
+            </VerticalStackLayout>
+
+            <!-- Conditions générales -->
+            <HorizontalStackLayout Spacing="8">
+                <CheckBox IsChecked="{Binding AcceptTerms}" Color="{StaticResource Primary}" VerticalOptions="Start" />
+                <Label FontSize="14" VerticalOptions="Center" LineBreakMode="WordWrap">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="{loc:Translate Register_Terms}" />
+                            <Span Text="{loc:Translate Register_TermsLink}" FontFamily="InterSemiBold" TextDecorations="Underline" />
+                            <Span Text="{loc:Translate Register_Terms2}" />
+                            <Span Text="{loc:Translate Register_Charter}" FontFamily="InterSemiBold" TextDecorations="Underline" />
+                            <Span Text="{loc:Translate Register_Terms3}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+            </HorizontalStackLayout>
+
+            <!-- Action principale -->
+            <VerticalStackLayout Spacing="16">
+                <Button Text="{Binding RegisterButtonText}" Command="{Binding RegisterCommand}" />
+                <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" HeightRequest="24" />
+            </VerticalStackLayout>
+
+            <!-- Lien vers la connexion -->
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="6">
+                <Label Text="{loc:Translate Register_Already}" Style="{StaticResource Caption}" FontSize="15" VerticalOptions="Center" />
+                <Label Text="{loc:Translate Register_Login}" FontFamily="InterSemiBold" FontSize="15" TextDecorations="Underline"
+                       VerticalOptions="Center" Padding="0,12">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding GoToLoginCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

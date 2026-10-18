@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:GetHome.ViewModels"
+             xmlns:models="clr-namespace:GetHome.Models"
+             xmlns:components="clr-namespace:GetHome.Components"
+             x:Class="GetHome.Views.PublierPage"
+             x:DataType="vm:PublierViewModel"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False"
+             Title="Publier une annonce">
+
+    <Grid RowDefinitions="Auto,*,Auto">
+
+        <!-- En-tête + stepper -->
+        <VerticalStackLayout Grid.Row="0" Padding="20,28,20,8" Spacing="10">
+            <Grid ColumnDefinitions="Auto,Auto,*">
+                <Label Grid.Column="0" Text="‹" FontSize="26" VerticalOptions="Center" Padding="0,0,12,0">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding GoBackCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+                <Label Grid.Column="1" Text="10" FontFamily="InterBold" FontSize="14"
+                       TextColor="{StaticResource Gray500}" VerticalOptions="Center" Margin="0,0,10,0" />
+                <Label Grid.Column="2" Text="Publier une annonce" Style="{StaticResource Subtitle}" FontSize="16"
+                       VerticalOptions="Center" />
+            </Grid>
+
+            <HorizontalStackLayout Spacing="10">
+                <HorizontalStackLayout Spacing="6">
+                    <Border StrokeShape="RoundRectangle 999" StrokeThickness="0" WidthRequest="22" HeightRequest="22"
+                            BackgroundColor="{StaticResource Primary}">
+                        <Label Text="1" FontSize="12" TextColor="{StaticResource White}" FontFamily="InterBold"
+                               HorizontalOptions="Center" VerticalOptions="Center" />
+                    </Border>
+                    <Label Text="Caractéristiques" FontSize="13" FontFamily="InterSemiBold" VerticalOptions="Center" />
+                </HorizontalStackLayout>
+                <Label Text="2 Photos" FontSize="13" TextColor="{StaticResource Gray500}" VerticalOptions="Center" />
+                <Label Text="3 Validation" FontSize="13" TextColor="{StaticResource Gray500}" VerticalOptions="Center" />
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="20,8,20,20" Spacing="22" MaximumWidthRequest="560">
+
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="Décrivez votre logement" Style="{StaticResource Headline}" FontSize="22" />
+                    <Label Text="Renseignez les données certifiées pour un traitement accéléré des dossiers sans intermédiaires."
+                           Style="{StaticResource Caption}" />
+                </VerticalStackLayout>
+
+                <!-- Type de bien -->
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Type de bien" Style="{StaticResource Subtitle}" FontSize="16" />
+                    <FlexLayout Direction="Row" Wrap="Wrap" JustifyContent="Start">
+                        <components:ChipView Text="Appartement" Margin="0,0,8,8"
+                                             IsSelected="{Binding IsAppartementSelected}" Command="{Binding SelectAppartementCommand}" />
+                        <components:ChipView Text="Studio" Margin="0,0,8,8"
+                                             IsSelected="{Binding IsStudioSelected}" Command="{Binding SelectStudioCommand}" />
+                        <components:ChipView Text="Maison" Margin="0,0,8,8"
+                                             IsSelected="{Binding IsMaisonSelected}" Command="{Binding SelectMaisonCommand}" />
+                    </FlexLayout>
+                </VerticalStackLayout>
+
+                <!-- Adresse -->
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Adresse du bien" Style="{StaticResource Subtitle}" FontSize="16" />
+                    <Border Style="{StaticResource FieldBorder}">
+                        <Entry Text="{Binding Address}" Placeholder="ex. Rue Njo-Njo, Bonapriso, Douala" />
+                    </Border>
+                </VerticalStackLayout>
+
+                <!-- Surface + pièces -->
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                    <VerticalStackLayout Grid.Column="0" Spacing="8">
+                        <Label Text="Surface habitable" Style="{StaticResource Subtitle}" FontSize="14" />
+                        <Border Style="{StaticResource FieldBorder}">
+                            <Entry Text="{Binding Surface}" Keyboard="Numeric" Placeholder="32" />
+                        </Border>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Grid.Column="1" Spacing="8">
+                        <Label Text="Nombre de pièces" Style="{StaticResource Subtitle}" FontSize="14" />
+                        <Border Style="{StaticResource FieldBorder}">
+                            <Entry Text="{Binding Rooms}" Keyboard="Numeric" Placeholder="2" />
+                        </Border>
+                    </VerticalStackLayout>
+                </Grid>
+
+                <!-- Régime de location -->
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Régime de location" Style="{StaticResource Subtitle}" FontSize="16" />
+                    <FlexLayout Direction="Row" Wrap="Wrap" JustifyContent="Start">
+                        <components:ChipView Text="Meublé" Margin="0,0,8,8"
+                                             IsSelected="{Binding IsMeubleSelected}" Command="{Binding SelectMeubleCommand}" />
+                        <components:ChipView Text="Non meublé" Margin="0,0,8,8"
+                                             IsSelected="{Binding IsNonMeubleSelected}" Command="{Binding SelectNonMeubleCommand}" />
+                    </FlexLayout>
+                </VerticalStackLayout>
+
+                <!-- Étage + ascenseur -->
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                    <VerticalStackLayout Grid.Column="0" Spacing="8">
+                        <Label Text="Étage" Style="{StaticResource Subtitle}" FontSize="14" />
+                        <Border Style="{StaticResource FieldBorder}">
+                            <Entry Text="{Binding Floor}" Keyboard="Numeric" Placeholder="2" />
+                        </Border>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Grid.Column="1" Spacing="8" VerticalOptions="Center">
+                        <Label Text="Ascenseur" Style="{StaticResource Subtitle}" FontSize="14" />
+                        <HorizontalStackLayout Spacing="6">
+                            <CheckBox IsChecked="{Binding HasElevator}" VerticalOptions="Center" />
+                            <Label Text="Oui" FontSize="14" VerticalOptions="Center" />
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </Grid>
+
+                <!-- DPE -->
+                <VerticalStackLayout Spacing="10">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="Éco-classe (indicateur énergétique GetHome)" Style="{StaticResource Subtitle}" FontSize="16" />
+                        <Label Grid.Column="1" Text="{Binding EcoSummaryText}" Style="{StaticResource Caption}"
+                               VerticalOptions="Center" />
+                    </Grid>
+                    <FlexLayout Direction="Row" Wrap="Wrap" JustifyContent="Start"
+                                BindableLayout.ItemsSource="{Binding EcoOptions}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="models:SelectOption">
+                                <components:ChipView Text="{Binding Label}" IsSelected="{Binding IsSelected}"
+                                                     Margin="0,0,8,8"
+                                                     Command="{Binding Source={RelativeSource AncestorType={x:Type vm:PublierViewModel}}, Path=SelectEcoCommand}"
+                                                     CommandParameter="{Binding .}" />
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </FlexLayout>
+                    <Border StrokeShape="RoundRectangle 12" StrokeThickness="0"
+                            BackgroundColor="{StaticResource Secondary}" Padding="12,8">
+                        <Label Text="Les annonces avec Éco-classe A, B ou C bénéficient d'une mise en avant naturelle sans surcoût serveur."
+                               Style="{StaticResource Caption}" FontSize="12" />
+                    </Border>
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Pied -->
+        <VerticalStackLayout Grid.Row="2" Padding="20,12,20,20" Spacing="8"
+                             BackgroundColor="{AppThemeBinding Light={StaticResource PageBackground}, Dark={StaticResource Tertiary}}">
+            <Button Text="Continuer vers les photos (Étape 2/3)" Command="{Binding ContinueCommand}" />
+            <Button Text="Enregistrer le brouillon" Style="{StaticResource OutlinedButton}"
+                    Command="{Binding SaveDraftCommand}" />
+        </VerticalStackLayout>
+
+    </Grid>
+</ContentPage>

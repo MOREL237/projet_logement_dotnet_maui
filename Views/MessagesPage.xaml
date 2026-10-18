@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:GetHome.ViewModels"
+             xmlns:models="clr-namespace:GetHome.Models"
+             xmlns:components="clr-namespace:GetHome.Components"
+             x:Class="GetHome.Views.MessagesPage"
+             x:DataType="vm:MessagesViewModel"
+             Shell.NavBarIsVisible="False"
+             Title="Messages">
+
+    <Grid RowDefinitions="Auto,*,Auto">
+
+        <!-- En-tête -->
+        <VerticalStackLayout Grid.Row="0" Padding="20,28,20,8" Spacing="4">
+            <Grid ColumnDefinitions="Auto,*,Auto">
+                <Label Grid.Column="0" Text="08" FontFamily="InterBold" FontSize="14"
+                       TextColor="{StaticResource Gray500}" VerticalOptions="Center" Margin="0,0,10,0" />
+                <Label Grid.Column="1" Text="Messagerie" Style="{StaticResource Headline}" FontSize="24"
+                       VerticalOptions="Center" />
+                <Label Grid.Column="2" Text="Archiver tout" Style="{StaticResource Caption}"
+                       TextDecorations="Underline" VerticalOptions="Center" Padding="0,8">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ArchiveAllCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </Grid>
+            <Label Text="SERVEURS SOBRES · SYNC INSTANTANÉE" Style="{StaticResource Caption}" FontSize="11" />
+        </VerticalStackLayout>
+
+        <!-- Liste des conversations -->
+        <CollectionView Grid.Row="1" ItemsSource="{Binding Conversations}" SelectionMode="None">
+
+            <CollectionView.Header>
+                <VerticalStackLayout Padding="20,8,20,12" Spacing="12">
+                    <FlexLayout Direction="Row" Wrap="Wrap" JustifyContent="Start">
+                        <components:ChipView Text="{Binding AllTabText}" Margin="0,0,8,8"
+                                             IsSelected="{Binding IsAllSelected}" Command="{Binding ShowAllCommand}" />
+                        <components:ChipView Text="{Binding UnreadTabText}" Margin="0,0,8,8"
+                                             IsSelected="{Binding IsUnreadSelected}" Command="{Binding ShowUnreadCommand}" />
+                        <components:ChipView Text="{Binding VisitsTabText}" Margin="0,0,8,8"
+                                             IsSelected="{Binding IsVisitsSelected}" Command="{Binding ShowVisitsCommand}" />
+                    </FlexLayout>
+
+                    <Border StrokeShape="RoundRectangle 12" StrokeThickness="0"
+                            BackgroundColor="{StaticResource Secondary}" Padding="14,10">
+                        <VerticalStackLayout Spacing="2">
+                            <Label Text="Historique épuré &amp; stockage mesuré" FontFamily="InterSemiBold" FontSize="13" />
+                            <Label Text="Les échanges inactifs depuis plus de 6 mois sont archivés automatiquement pour réduire l'empreinte serveur."
+                                   Style="{StaticResource Caption}" FontSize="12" />
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+            </CollectionView.Header>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Conversation">
+                    <Border Style="{StaticResource Card}" Margin="20,0,20,12">
+                        <VerticalStackLayout Spacing="10">
+
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                                <Border Grid.Column="0" StrokeShape="RoundRectangle 999" StrokeThickness="0"
+                                        WidthRequest="44" HeightRequest="44" BackgroundColor="{Binding ImageTint}">
+                                    <Label Text="{Binding AvatarInitials}" FontFamily="InterBold" FontSize="15"
+                                           TextColor="{StaticResource Gray900}"
+                                           HorizontalOptions="Center" VerticalOptions="Center" />
+                                </Border>
+                                <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                    <HorizontalStackLayout Spacing="6">
+                                        <Label Text="{Binding OwnerName}" FontFamily="InterSemiBold" FontSize="15" />
+                                        <Border StrokeShape="RoundRectangle 999" StrokeThickness="0"
+                                                WidthRequest="8" HeightRequest="8" BackgroundColor="{StaticResource Primary}"
+                                                IsVisible="{Binding IsUnread}" VerticalOptions="Center" />
+                                    </HorizontalStackLayout>
+                                    <Label Text="{Binding OwnerRole}" Style="{StaticResource Caption}" />
+                                </VerticalStackLayout>
+                                <Label Grid.Column="2" Text="{Binding TimeLabel}" Style="{StaticResource Caption}"
+                                       VerticalOptions="Start" />
+                            </Grid>
+
+                            <Label Text="{Binding Preview}" FontSize="14" LineHeight="1.3" MaxLines="2"
+                                   LineBreakMode="TailTruncation" />
+
+                            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                                <VerticalStackLayout Grid.Column="0" Spacing="6">
+                                    <Border StrokeShape="RoundRectangle 10" StrokeThickness="1"
+                                            Stroke="{StaticResource Neutral}" Padding="10,5" HorizontalOptions="Start">
+                                        <Label Text="{Binding ListingLabel}" FontSize="12" />
+                                    </Border>
+                                    <Border StrokeShape="RoundRectangle 999" StrokeThickness="0"
+                                            BackgroundColor="{StaticResource Secondary}" Padding="10,5"
+                                            HorizontalOptions="Start">
+                                        <Label Text="{Binding StatusLabel}" FontSize="12" FontFamily="InterSemiBold" />
+                                    </Border>
+                                </VerticalStackLayout>
+                                <Button Grid.Column="1" Text="Ouvrir" HeightRequest="42" FontSize="14" Padding="18,0"
+                                        VerticalOptions="End"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MessagesViewModel}}, Path=OpenCommand}"
+                                        CommandParameter="{Binding .}" />
+                            </Grid>
+
+                            <Border StrokeShape="RoundRectangle 10" StrokeThickness="0"
+                                    BackgroundColor="{StaticResource Secondary}" Padding="10,7"
+                                    IsVisible="{Binding QuickReply, Converter={StaticResource IsNotEmpty}}">
+                                <Label FontSize="12">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="Répondre : " />
+                                            <Span Text="{Binding QuickReply, StringFormat='« {0} »'}"
+                                                  FontFamily="InterSemiBold" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                            </Border>
+
+                        </VerticalStackLayout>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+            <CollectionView.EmptyView>
+                <Label Text="Aucune conversation" Style="{StaticResource Caption}"
+                       HorizontalOptions="Center" Margin="0,40,0,0" />
+            </CollectionView.EmptyView>
+
+            <CollectionView.Footer>
+                <Label Text="Transmission directe · Fichiers optimisés (-78% CO₂)"
+                       Style="{StaticResource Caption}" HorizontalTextAlignment="Center"
+                       Margin="20,4,20,16" />
+            </CollectionView.Footer>
+        </CollectionView>
+
+        <!-- Barre de composition -->
+        <Border Grid.Row="2" StrokeThickness="1" Stroke="{StaticResource Neutral}"
+                StrokeShape="Rectangle" Padding="16,10" Margin="0"
+                BackgroundColor="{AppThemeBinding Light={StaticResource PageBackground}, Dark={StaticResource Tertiary}}">
+            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                <Border Grid.Column="0" Style="{StaticResource FieldBorder}">
+                    <Entry Text="{Binding ComposerText}" Placeholder="Écrire à Marc D. pour la visite…"
+                           ReturnCommand="{Binding SendCommand}" />
+                </Border>
+                <Button Grid.Column="1" Text="Envoyer" HeightRequest="46" FontSize="14" Padding="16,0"
+                        Command="{Binding SendCommand}" />
+            </Grid>
+        </Border>
+
+    </Grid>
+</ContentPage>

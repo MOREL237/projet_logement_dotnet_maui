@@ -1,15 +1,39 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<Shell
-    x:Class="GetHome.AppShell"
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:GetHome"
-    Shell.FlyoutBehavior="Disabled"
-    Title="GetHome">
+<Shell x:Class="GetHome.AppShell"
+       xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:views="clr-namespace:GetHome.Views"
+       xmlns:loc="clr-namespace:GetHome.Localization"
+       Shell.FlyoutBehavior="Disabled"
+       Shell.NavBarIsVisible="False">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <!-- ===== Flux d'authentification (sans barre d'onglets) ===== -->
+    <ShellContent Route="login"
+                  ContentTemplate="{DataTemplate views:LoginPage}"
+                  Shell.TabBarIsVisible="False" />
+
+    <ShellContent Route="register"
+                  ContentTemplate="{DataTemplate views:RegisterPage}"
+                  Shell.TabBarIsVisible="False" />
+
+    <ShellContent Route="forgot"
+                  ContentTemplate="{DataTemplate views:ForgotPasswordPage}"
+                  Shell.TabBarIsVisible="False" />
+
+    <!-- ===== Application principale (barre d'onglets) ===== -->
+    <TabBar Route="main">
+        <Tab Title="{loc:Translate Shell_Recherche}" Route="recherche" Icon="tab_search.svg">
+            <ShellContent ContentTemplate="{DataTemplate views:AccueilPage}" />
+        </Tab>
+        <Tab Title="{loc:Translate Shell_Favoris}" Route="favoris" Icon="tab_favorite.svg">
+            <ShellContent ContentTemplate="{DataTemplate views:FavorisPage}" />
+        </Tab>
+        <Tab Title="{loc:Translate Shell_Messages}" Route="messages" Icon="tab_message.svg">
+            <ShellContent ContentTemplate="{DataTemplate views:MessagesPage}" />
+        </Tab>
+        <Tab Title="{loc:Translate Shell_Profil}" Route="profil" Icon="tab_profile.svg">
+            <ShellContent ContentTemplate="{DataTemplate views:ProfilPage}" />
+        </Tab>
+    </TabBar>
 
 </Shell>

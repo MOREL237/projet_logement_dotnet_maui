@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:GetHome.ViewModels"
+             xmlns:models="clr-namespace:GetHome.Models"
+             x:Class="GetHome.Views.DetailAnnoncePage"
+             x:DataType="vm:DetailAnnonceViewModel"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False"
+             Title="Détail">
+
+    <Grid RowDefinitions="Auto,*,Auto">
+
+        <!-- Barre supérieure -->
+        <Grid Grid.Row="0" ColumnDefinitions="Auto,*,Auto" Padding="20,28,20,8">
+            <Label Grid.Column="0" Text="‹" FontSize="26" VerticalOptions="Center" Padding="0,0,12,0">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding GoBackCommand}" />
+                </Label.GestureRecognizers>
+            </Label>
+            <Label Grid.Column="1" Text="Détail de l'annonce" Style="{StaticResource Subtitle}" FontSize="16"
+                   VerticalOptions="Center" />
+            <Label Grid.Column="2" Text="{Binding FavoriteIcon}" FontSize="24"
+                   TextColor="{StaticResource Primary}" VerticalOptions="Center" Padding="12,0,0,0">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ToggleFavoriteCommand}" />
+                </Label.GestureRecognizers>
+            </Label>
+        </Grid>
+
+        <ScrollView Grid.Row="1" IsVisible="{Binding HasListing}">
+            <VerticalStackLayout Padding="20,8,20,20" Spacing="20" MaximumWidthRequest="560">
+
+                <!-- Photos -->
+                <Border StrokeShape="RoundRectangle 18" StrokeThickness="0" HeightRequest="240"
+                        BackgroundColor="{Binding Listing.ImageTint}">
+                    <Label Text="{Binding Listing.PhotoCounterText}" Style="{StaticResource Caption}"
+                           VerticalOptions="End" HorizontalOptions="Start" Padding="12"
+                           TextColor="{StaticResource Gray900}" />
+                </Border>
+
+                <!-- Titre + n° -->
+                <VerticalStackLayout Spacing="4">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Grid.Column="0" Text="{Binding Listing.Title}" Style="{StaticResource Headline}"
+                               FontSize="22" />
+                        <Label Grid.Column="1" Text="{Binding Listing.EcoClass, StringFormat='Éco-classe {0}'}" FontSize="13"
+                               FontFamily="InterSemiBold" VerticalOptions="Start" Padding="8,0,0,0" />
+                    </Grid>
+                    <Label Text="{Binding Listing.Neighborhood}" Style="{StaticResource Caption}" />
+                </VerticalStackLayout>
+
+                <!-- Loyer -->
+                <HorizontalStackLayout Spacing="6">
+                    <Label Text="{Binding Listing.PriceText}" FontFamily="InterBold" FontSize="24" />
+                    <Label Text="{Binding Listing.PriceUnit}" Style="{StaticResource Caption}" VerticalOptions="End"
+                           Margin="0,0,0,3" />
+                </HorizontalStackLayout>
+
+                <!-- Caractéristiques -->
+                <Border Style="{StaticResource Card}">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Caractéristiques" Style="{StaticResource Subtitle}" FontSize="15" />
+                        <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" ColumnSpacing="10" RowSpacing="8">
+                            <Label Grid.Row="0" Grid.Column="0" Text="{Binding Listing.SurfaceText}" FontSize="14" />
+                            <Label Grid.Row="0" Grid.Column="1" Text="{Binding Listing.Rooms}" FontSize="14" />
+                            <Label Grid.Row="1" Grid.Column="0" Text="{Binding Listing.Bedrooms}" FontSize="14" />
+                            <Label Grid.Row="1" Grid.Column="1" Text="{Binding Listing.Floor}" FontSize="14" />
+                        </Grid>
+                        <Label Text="{Binding Listing.AvailabilityDetail}" Style="{StaticResource Caption}" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Équipements -->
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Équipements &amp; commodités" Style="{StaticResource Subtitle}" FontSize="15" />
+                    <FlexLayout Direction="Row" Wrap="Wrap" JustifyContent="Start"
+                                BindableLayout.ItemsSource="{Binding Listing.Amenities}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="x:String">
+                                <Border StrokeShape="RoundRectangle 12" StrokeThickness="1"
+                                        Stroke="{StaticResource Neutral}" Padding="12,7" Margin="0,0,8,8">
+                                    <Label Text="{Binding .}" FontSize="13" />
+                                </Border>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </FlexLayout>
+                </VerticalStackLayout>
+
+                <!-- Description -->
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Description" Style="{StaticResource Subtitle}" FontSize="15" />
+                    <Label Text="{Binding Listing.Description}" FontSize="14" LineHeight="1.35" />
+                </VerticalStackLayout>
+
+                <!-- Propriétaire -->
+                <Border Style="{StaticResource Card}">
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="Propriétaire" Style="{StaticResource Subtitle}" FontSize="15" />
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                            <Border Grid.Column="0" StrokeShape="RoundRectangle 999" StrokeThickness="0"
+                                    WidthRequest="52" HeightRequest="52"
+                                    BackgroundColor="{StaticResource Primary}">
+                                <Label Text="{Binding Listing.OwnerInitials}" FontFamily="InterBold" FontSize="18"
+                                       TextColor="{StaticResource White}"
+                                       HorizontalOptions="Center" VerticalOptions="Center" />
+                            </Border>
+                            <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                <HorizontalStackLayout Spacing="6">
+                                    <Label Text="{Binding Listing.OwnerName}" FontFamily="InterSemiBold" FontSize="15" />
+                                    <Label Text="✓ Vérifié" Style="{StaticResource Caption}"
+                                           TextColor="{StaticResource Success}" IsVisible="{Binding Listing.OwnerVerified}" />
+                                </HorizontalStackLayout>
+                                <Label Style="{StaticResource Caption}">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="Réponse en " />
+                                            <Span Text="{Binding Listing.OwnerResponseTime}" />
+                                            <Span Text=" · " />
+                                            <Span Text="{Binding Listing.OwnerResponseRate}" />
+                                            <Span Text=" du temps" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Label Style="{StaticResource Caption}">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{Binding Listing.OwnerListingsCount, StringFormat='{0:0}'}" />
+                                            <Span Text=" annonces actives" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                            </VerticalStackLayout>
+                        </Grid>
+                        <Label Text="Contact direct : pas de démarcheur ni de commission d'agence."
+                               Style="{StaticResource Caption}" FontSize="12" />
+                        <Label Text="Caution et avance à convenir. Paiement : espèces, MTN MoMo ou Orange Money."
+                               Style="{StaticResource Caption}" FontSize="12" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Label Text="Fiche allégée : photos basse consommation et texte optimisé."
+                       Style="{StaticResource Caption}" HorizontalTextAlignment="Center" />
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- CTA -->
+        <Grid Grid.Row="2" ColumnDefinitions="*,*" ColumnSpacing="12" Padding="20,12,20,20"
+              BackgroundColor="{AppThemeBinding Light={StaticResource PageBackground}, Dark={StaticResource Tertiary}}"
+              IsVisible="{Binding HasListing}">
+            <Button Grid.Column="0" Text="Contacter" Command="{Binding ContactCommand}" HeightRequest="52" />
+            <Button Grid.Column="1" Text="Appeler" Style="{StaticResource SecondaryButton}"
+                    Command="{Binding CallCommand}" HeightRequest="52" />
+        </Grid>
+
+    </Grid>
+</ContentPage>
