@@ -54,12 +54,12 @@ public partial class ProfilViewModel : ObservableObject
 
     // ---- Textes dérivés ----
     public string DossierCompletionText => $"{LocalizationService.Instance["Profil_DossierCompletion"]}{Profile?.DossierCompletion ?? 0}%";
-    public string CacheSizeText => $"{Profile?.CacheSizeMb ?? 0:0.#} Mo stockés sur ce terminal";
+    public string CacheSizeText => string.Format(LocalizationService.Instance["Profil_CacheSize"], Profile?.CacheSizeMb ?? 0);
     public string LanguageText => LocalizationService.Instance.IsFrench ? "Français (FR)" : "English (EN)";
-    public string LanguageRowText => LocalizationService.Instance.IsFrench ? "Langue de l'application" : "App language";
+    public string LanguageRowText => LocalizationService.Instance["Profil_Language"];
     public bool IsFrenchSelected => LocalizationService.Instance.IsFrench;
     public bool IsEnglishSelected => LocalizationService.Instance.IsEnglish;
-    public string AppVersionText => $"GetHome {Profile?.AppVersion ?? "v1.0.0"} · Écoconception numérique certifiée";
+    public string AppVersionText => string.Format(LocalizationService.Instance["Profil_AppVersion"], Profile?.AppVersion ?? "v1.0.0");
     public string CarbonLabel => Profile?.CarbonLabel ?? string.Empty;
 
     partial void OnProfileChanged(UserProfile? value)

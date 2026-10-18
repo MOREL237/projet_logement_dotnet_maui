@@ -4,11 +4,12 @@
              xmlns:vm="clr-namespace:GetHome.ViewModels"
              xmlns:models="clr-namespace:GetHome.Models"
              xmlns:components="clr-namespace:GetHome.Components"
+             xmlns:loc="clr-namespace:GetHome.Localization"
              x:Class="GetHome.Views.FiltresPage"
              x:DataType="vm:FiltresViewModel"
              Shell.NavBarIsVisible="False"
              Shell.TabBarIsVisible="False"
-             Title="Filtres">
+             Title="{loc:Translate Filtres_Title}">
 
     <Grid RowDefinitions="Auto,*,Auto">
 
@@ -17,11 +18,11 @@
             <Grid ColumnDefinitions="Auto,*">
                 <Label Grid.Column="0" Text="05" FontFamily="InterBold" FontSize="14"
                        TextColor="{StaticResource Gray500}" VerticalOptions="Center" Margin="0,0,10,0" />
-                <Label Grid.Column="1" Text="Filtres" Style="{StaticResource Headline}" FontSize="24" VerticalOptions="Center" />
+                <Label Grid.Column="1" Text="{loc:Translate Filtres_Title}" Style="{StaticResource Headline}" FontSize="24" VerticalOptions="Center" />
             </Grid>
             <Grid ColumnDefinitions="*,Auto">
-                <Label Grid.Column="0" Text="Critères précis" Style="{StaticResource Caption}" VerticalOptions="Center" />
-                <Label Grid.Column="1" Text="Réinitialiser" FontFamily="InterSemiBold" FontSize="14"
+                <Label Grid.Column="0" Text="{loc:Translate Filtres_Criteria}" Style="{StaticResource Caption}" VerticalOptions="Center" />
+                <Label Grid.Column="1" Text="{loc:Translate Filtres_Reset}" FontFamily="InterSemiBold" FontSize="14"
                        TextDecorations="Underline" Padding="0,8">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding ResetCommand}" />
@@ -36,25 +37,25 @@
                 <!-- Localisation -->
                 <VerticalStackLayout Spacing="10">
                     <Grid ColumnDefinitions="*,Auto">
-                        <Label Text="Localisation" Style="{StaticResource Subtitle}" FontSize="16" />
-                        <Label Grid.Column="1" Text="2 zones cibles" Style="{StaticResource Caption}" VerticalOptions="Center" />
+                        <Label Text="{loc:Translate Filtres_Location}" Style="{StaticResource Subtitle}" FontSize="16" />
+                        <Label Grid.Column="1" Text="{loc:Translate Filtres_TargetZones}" Style="{StaticResource Caption}" VerticalOptions="Center" />
                     </Grid>
                     <Border Style="{StaticResource FieldBorder}">
-                        <Entry Text="{Binding LocationQuery}" Placeholder="Ajouter un arrondissement, code postal…" />
+                        <Entry Text="{Binding LocationQuery}" Placeholder="{loc:Translate Filtres_LocationPlaceholder}" />
                     </Border>
                     <FlexLayout Direction="Row" Wrap="Wrap" JustifyContent="Start">
-                        <components:ChipView Text="Douala" Margin="0,0,8,8"
+                        <components:ChipView Text="{loc:Translate Filtres_CityDouala}" Margin="0,0,8,8"
                                              IsSelected="{Binding IsDoualaSelected}" Command="{Binding SelectDoualaCommand}" />
-                        <components:ChipView Text="Yaoundé" Margin="0,0,8,8"
+                        <components:ChipView Text="{loc:Translate Filtres_CityYaounde}" Margin="0,0,8,8"
                                              IsSelected="{Binding IsYaoundeSelected}" Command="{Binding SelectYaoundeCommand}" />
-                        <components:ChipView Text="Autour de moi" Margin="0,0,8,8"
+                        <components:ChipView Text="{loc:Translate Filtres_AroundMe}" Margin="0,0,8,8"
                                              IsSelected="{Binding IsAroundMeSelected}" Command="{Binding SelectAroundMeCommand}" />
                     </FlexLayout>
                 </VerticalStackLayout>
 
                 <!-- Loyer -->
                 <VerticalStackLayout Spacing="10">
-                    <Label Text="Loyer mensuel charges comprises" Style="{StaticResource Subtitle}" FontSize="16" />
+                    <Label Text="{loc:Translate Filtres_Rent}" Style="{StaticResource Subtitle}" FontSize="16" />
                     <Grid ColumnDefinitions="*,Auto">
                         <Label Grid.Column="0" Style="{StaticResource Caption}">
                             <Label.FormattedText>
@@ -67,9 +68,9 @@
                             </Label.FormattedText>
                         </Label>
                     </Grid>
-                    <Label Text="Minimum" Style="{StaticResource Caption}" />
+                    <Label Text="{loc:Translate Filtres_Min}" Style="{StaticResource Caption}" />
                     <Slider Minimum="0" Maximum="200000" Value="{Binding MinRent}" />
-                    <Label Text="Maximum" Style="{StaticResource Caption}" />
+                    <Label Text="{loc:Translate Filtres_Max}" Style="{StaticResource Caption}" />
                     <Slider Minimum="0" Maximum="200000" Value="{Binding MaxRent}" />
                     <Border StrokeShape="RoundRectangle 12" StrokeThickness="0"
                             BackgroundColor="{StaticResource Secondary}" Padding="12,8">
@@ -79,15 +80,15 @@
 
                 <!-- Type d'habitat -->
                 <VerticalStackLayout Spacing="10">
-                    <Label Text="Type d'habitat" Style="{StaticResource Subtitle}" FontSize="16" />
+                    <Label Text="{loc:Translate Filtres_PropertyType}" Style="{StaticResource Subtitle}" FontSize="16" />
                     <FlexLayout Direction="Row" Wrap="Wrap" JustifyContent="Start">
-                        <components:ChipView Text="Studio" Margin="0,0,8,8"
+                        <components:ChipView Text="{loc:Translate Filtres_Studio}" Margin="0,0,8,8"
                                              IsSelected="{Binding IsStudioSelected}" Command="{Binding SelectStudioCommand}" />
-                        <components:ChipView Text="Appartement" Margin="0,0,8,8"
+                        <components:ChipView Text="{loc:Translate Filtres_Apartment}" Margin="0,0,8,8"
                                              IsSelected="{Binding IsAppartementSelected}" Command="{Binding SelectAppartementCommand}" />
-                        <components:ChipView Text="Maison" Margin="0,0,8,8"
+                        <components:ChipView Text="{loc:Translate Filtres_House}" Margin="0,0,8,8"
                                              IsSelected="{Binding IsMaisonSelected}" Command="{Binding SelectMaisonCommand}" />
-                        <components:ChipView Text="Colocation" Margin="0,0,8,8"
+                        <components:ChipView Text="{loc:Translate Filtres_Shared}" Margin="0,0,8,8"
                                              IsSelected="{Binding IsColocationSelected}" Command="{Binding SelectColocationCommand}" />
                     </FlexLayout>
                 </VerticalStackLayout>
@@ -95,7 +96,7 @@
                 <!-- Nombre de pièces -->
                 <VerticalStackLayout Spacing="10">
                     <Grid ColumnDefinitions="*,Auto">
-                        <Label Text="Nombre de pièces" Style="{StaticResource Subtitle}" FontSize="16" />
+                        <Label Text="{loc:Translate Filtres_Rooms}" Style="{StaticResource Subtitle}" FontSize="16" />
                         <Label Grid.Column="1" Text="{Binding RoomSelectionText}" Style="{StaticResource Caption}" VerticalOptions="Center" />
                     </Grid>
                     <FlexLayout Direction="Row" Wrap="Wrap" JustifyContent="Start"
@@ -113,35 +114,35 @@
 
                 <!-- Agencement & mobilier -->
                 <VerticalStackLayout Spacing="10">
-                    <Label Text="Agencement &amp; mobilier" Style="{StaticResource Subtitle}" FontSize="16" />
+                    <Label Text="{loc:Translate Filtres_Furnishing}" Style="{StaticResource Subtitle}" FontSize="16" />
                     <FlexLayout Direction="Row" Wrap="Wrap" JustifyContent="Start">
-                        <components:ChipView Text="Indifférent" Margin="0,0,8,8"
+                        <components:ChipView Text="{loc:Translate Filtres_Indifferent}" Margin="0,0,8,8"
                                              IsSelected="{Binding IsIndifferentSelected}" Command="{Binding SelectIndifferentCommand}" />
-                        <components:ChipView Text="Meublé" Margin="0,0,8,8"
+                        <components:ChipView Text="{loc:Translate Filtres_Furnished}" Margin="0,0,8,8"
                                              IsSelected="{Binding IsMeubleSelected}" Command="{Binding SelectMeubleCommand}" />
-                        <components:ChipView Text="Non meublé" Margin="0,0,8,8"
+                        <components:ChipView Text="{loc:Translate Filtres_Unfurnished}" Margin="0,0,8,8"
                                              IsSelected="{Binding IsNonMeubleSelected}" Command="{Binding SelectNonMeubleCommand}" />
                     </FlexLayout>
                 </VerticalStackLayout>
 
                 <!-- Éco-performance & confort -->
                 <VerticalStackLayout Spacing="12">
-                    <Label Text="Éco-performance &amp; Confort" Style="{StaticResource Subtitle}" FontSize="16" />
+                    <Label Text="{loc:Translate Filtres_EcoPerf}" Style="{StaticResource Subtitle}" FontSize="16" />
                     <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
                         <CheckBox Grid.Column="0" IsChecked="{Binding EcoSobre}" VerticalOptions="Start" />
-                        <Label Grid.Column="1" Text="Éco-classe sobre (A, B ou C)" FontSize="14" VerticalOptions="Center" />
+                        <Label Grid.Column="1" Text="{loc:Translate Filtres_EcoSobre}" FontSize="14" VerticalOptions="Center" />
                     </Grid>
                     <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
                         <CheckBox Grid.Column="0" IsChecked="{Binding LowConsumption}" VerticalOptions="Start" />
-                        <Label Grid.Column="1" Text="Faible consommation (compteur ENEO prépayé)" FontSize="14" />
+                        <Label Grid.Column="1" Text="{loc:Translate Filtres_LowConsumption}" FontSize="14" />
                     </Grid>
                     <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
                         <CheckBox Grid.Column="0" IsChecked="{Binding NoElevator}" VerticalOptions="Start" />
-                        <Label Grid.Column="1" Text="Étage sans ascenseur" FontSize="14" />
+                        <Label Grid.Column="1" Text="{loc:Translate Filtres_NoElevator}" FontSize="14" />
                     </Grid>
                     <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
                         <CheckBox Grid.Column="0" IsChecked="{Binding Balcony}" VerticalOptions="Start" />
-                        <Label Grid.Column="1" Text="Balcon" FontSize="14" />
+                        <Label Grid.Column="1" Text="{loc:Translate Filtres_Balcony}" FontSize="14" />
                     </Grid>
                 </VerticalStackLayout>
 
@@ -152,7 +153,7 @@
         <VerticalStackLayout Grid.Row="2" Padding="20,12,20,20" Spacing="8"
                              BackgroundColor="{AppThemeBinding Light={StaticResource PageBackground}, Dark={StaticResource Tertiary}}">
             <Button Text="{Binding ApplyButtonText}" Command="{Binding ApplyCommand}" />
-            <Label Text="Requête allégée : empreinte carbone minimisée"
+            <Label Text="{loc:Translate Filtres_LowFootprint}"
                    Style="{StaticResource Caption}" HorizontalTextAlignment="Center" />
         </VerticalStackLayout>
 

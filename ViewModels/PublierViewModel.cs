@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using GetHome.Localization;
 using GetHome.Models;
 
 namespace GetHome.ViewModels;
@@ -14,6 +15,8 @@ public partial class PublierViewModel : ObservableObject
             new("A"), new("B"), new("C"), new("D"), new("E"), new("F"), new("G")
         };
         EcoOptions[1].IsSelected = true;
+
+        LocalizationService.Instance.PropertyChanged += (_, _) => OnPropertyChanged(nameof(EcoSummaryText));
     }
 
     // ---- Stepper ----
@@ -54,7 +57,9 @@ public partial class PublierViewModel : ObservableObject
         get
         {
             var selected = EcoOptions.FirstOrDefault(o => o.IsSelected);
-            return selected is null ? "Éco-classe à définir" : $"Éco-classe {selected.Label}";
+            return selected is null
+                ? LocalizationService.Instance["Publier_EcoNone"]
+                : string.Format(LocalizationService.Instance["Publier_EcoValue"], selected.Label);
         }
     }
 
@@ -80,12 +85,12 @@ public partial class PublierViewModel : ObservableObject
 
     [RelayCommand]
     private async Task ContinueAsync() =>
-        await Shell.Current.DisplayAlert("Publication",
-            "Étape 2 (Photos) à venir — brouillon conservé.", "OK");
+        await Shell.Current.DisplayAlert("GetHome",
+            LocalizationService.Instance["Publier_ContinueSoon"], "OK");
 
     [RelayCommand]
     private async Task SaveDraftAsync() =>
-        await Shell.Current.DisplayAlert("Publication", "Brouillon enregistré (simulation).", "OK");
+        await Shell.Current.DisplayAlert("GetHome", LocalizationService.Instance["Publier_DraftSaved"], "OK");
 
     [RelayCommand]
     private async Task GoBackAsync() => await Shell.Current.GoToAsync("..");

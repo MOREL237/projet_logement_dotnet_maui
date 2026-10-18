@@ -3,16 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:GetHome.ViewModels"
              xmlns:models="clr-namespace:GetHome.Models"
+             xmlns:loc="clr-namespace:GetHome.Localization"
              x:Class="GetHome.Views.FavorisPage"
              x:DataType="vm:FavorisViewModel"
              Shell.NavBarIsVisible="False"
-             Title="Favoris">
+             Title="{loc:Translate Favoris_Title}">
 
     <Grid RowDefinitions="Auto,*">
 
         <!-- En-tête -->
         <VerticalStackLayout Grid.Row="0" Padding="20,28,20,8" Spacing="4">
-            <Label Text="Favoris" Style="{StaticResource Headline}" FontSize="24" />
+            <Label Text="{loc:Translate Favoris_Title}" Style="{StaticResource Headline}" FontSize="24" />
             <Label Text="{Binding CountText}" Style="{StaticResource Caption}" />
         </VerticalStackLayout>
 
@@ -20,7 +21,7 @@
         <ScrollView Grid.Row="1">
             <VerticalStackLayout Padding="20,8,20,24" Spacing="16" MaximumWidthRequest="560">
 
-                <Label Text="Aucun favori pour l'instant. Ajoutez des logements depuis une annonce (♥)."
+                <Label Text="{loc:Translate Favoris_Empty}"
                        Style="{StaticResource Caption}" HorizontalTextAlignment="Center" Margin="0,40,0,0"
                        IsVisible="{Binding IsEmpty}" />
 
@@ -50,10 +51,10 @@
                                     </Grid>
 
                                     <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
-                                        <Button Grid.Column="0" Text="Détails" HeightRequest="42" FontSize="14"
+                                        <Button Grid.Column="0" Text="{loc:Translate Favoris_Details}" HeightRequest="42" FontSize="14"
                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type vm:FavorisViewModel}}, Path=OpenDetailCommand}"
                                                 CommandParameter="{Binding .}" />
-                                        <Button Grid.Column="1" Text="Retirer" Style="{StaticResource SecondaryButton}"
+                                        <Button Grid.Column="1" Text="{loc:Translate Favoris_Remove}" Style="{StaticResource SecondaryButton}"
                                                 HeightRequest="42" FontSize="14"
                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type vm:FavorisViewModel}}, Path=RemoveCommand}"
                                                 CommandParameter="{Binding .}" />

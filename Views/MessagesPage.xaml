@@ -4,10 +4,11 @@
              xmlns:vm="clr-namespace:GetHome.ViewModels"
              xmlns:models="clr-namespace:GetHome.Models"
              xmlns:components="clr-namespace:GetHome.Components"
+             xmlns:loc="clr-namespace:GetHome.Localization"
              x:Class="GetHome.Views.MessagesPage"
              x:DataType="vm:MessagesViewModel"
              Shell.NavBarIsVisible="False"
-             Title="Messages">
+             Title="{loc:Translate Messages_Title}">
 
     <Grid RowDefinitions="Auto,*,Auto">
 
@@ -16,16 +17,16 @@
             <Grid ColumnDefinitions="Auto,*,Auto">
                 <Label Grid.Column="0" Text="08" FontFamily="InterBold" FontSize="14"
                        TextColor="{StaticResource Gray500}" VerticalOptions="Center" Margin="0,0,10,0" />
-                <Label Grid.Column="1" Text="Messagerie" Style="{StaticResource Headline}" FontSize="24"
+                <Label Grid.Column="1" Text="{loc:Translate Messages_Title}" Style="{StaticResource Headline}" FontSize="24"
                        VerticalOptions="Center" />
-                <Label Grid.Column="2" Text="Archiver tout" Style="{StaticResource Caption}"
+                <Label Grid.Column="2" Text="{loc:Translate Messages_ArchiveAll}" Style="{StaticResource Caption}"
                        TextDecorations="Underline" VerticalOptions="Center" Padding="0,8">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding ArchiveAllCommand}" />
                     </Label.GestureRecognizers>
                 </Label>
             </Grid>
-            <Label Text="SERVEURS SOBRES · SYNC INSTANTANÉE" Style="{StaticResource Caption}" FontSize="11" />
+            <Label Text="{loc:Translate Messages_Sober}" Style="{StaticResource Caption}" FontSize="11" />
         </VerticalStackLayout>
 
         <!-- Liste des conversations -->
@@ -45,8 +46,8 @@
                     <Border StrokeShape="RoundRectangle 12" StrokeThickness="0"
                             BackgroundColor="{StaticResource Secondary}" Padding="14,10">
                         <VerticalStackLayout Spacing="2">
-                            <Label Text="Historique épuré &amp; stockage mesuré" FontFamily="InterSemiBold" FontSize="13" />
-                            <Label Text="Les échanges inactifs depuis plus de 6 mois sont archivés automatiquement pour réduire l'empreinte serveur."
+                            <Label Text="{loc:Translate Messages_HistoryTitle}" FontFamily="InterSemiBold" FontSize="13" />
+                            <Label Text="{loc:Translate Messages_HistoryNote}"
                                    Style="{StaticResource Caption}" FontSize="12" />
                         </VerticalStackLayout>
                     </Border>
@@ -93,7 +94,7 @@
                                         <Label Text="{Binding StatusLabel}" FontSize="12" FontFamily="InterSemiBold" />
                                     </Border>
                                 </VerticalStackLayout>
-                                <Button Grid.Column="1" Text="Ouvrir" HeightRequest="42" FontSize="14" Padding="18,0"
+                                <Button Grid.Column="1" Text="{loc:Translate Messages_Open}" HeightRequest="42" FontSize="14" Padding="18,0"
                                         VerticalOptions="End"
                                         Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MessagesViewModel}}, Path=OpenCommand}"
                                         CommandParameter="{Binding .}" />
@@ -105,7 +106,7 @@
                                 <Label FontSize="12">
                                     <Label.FormattedText>
                                         <FormattedString>
-                                            <Span Text="Répondre : " />
+                                            <Span Text="{loc:Translate Messages_Reply}" />
                                             <Span Text="{Binding QuickReply, StringFormat='« {0} »'}"
                                                   FontFamily="InterSemiBold" />
                                         </FormattedString>
@@ -119,12 +120,12 @@
             </CollectionView.ItemTemplate>
 
             <CollectionView.EmptyView>
-                <Label Text="Aucune conversation" Style="{StaticResource Caption}"
+                <Label Text="{loc:Translate Messages_Empty}" Style="{StaticResource Caption}"
                        HorizontalOptions="Center" Margin="0,40,0,0" />
             </CollectionView.EmptyView>
 
             <CollectionView.Footer>
-                <Label Text="Transmission directe · Fichiers optimisés (-78% CO₂)"
+                <Label Text="{loc:Translate Messages_Footer}"
                        Style="{StaticResource Caption}" HorizontalTextAlignment="Center"
                        Margin="20,4,20,16" />
             </CollectionView.Footer>
@@ -136,10 +137,10 @@
                 BackgroundColor="{AppThemeBinding Light={StaticResource PageBackground}, Dark={StaticResource Tertiary}}">
             <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
                 <Border Grid.Column="0" Style="{StaticResource FieldBorder}">
-                    <Entry Text="{Binding ComposerText}" Placeholder="Écrire à Marc D. pour la visite…"
+                    <Entry Text="{Binding ComposerText}" Placeholder="{loc:Translate Messages_ComposerPlaceholder}"
                            ReturnCommand="{Binding SendCommand}" />
                 </Border>
-                <Button Grid.Column="1" Text="Envoyer" HeightRequest="46" FontSize="14" Padding="16,0"
+                <Button Grid.Column="1" Text="{loc:Translate Messages_Send}" HeightRequest="46" FontSize="14" Padding="16,0"
                         Command="{Binding SendCommand}" />
             </Grid>
         </Border>

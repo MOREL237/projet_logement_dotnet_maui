@@ -3,10 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:GetHome.ViewModels"
              xmlns:models="clr-namespace:GetHome.Models"
+             xmlns:loc="clr-namespace:GetHome.Localization"
              x:Class="GetHome.Views.ResultatsPage"
              x:DataType="vm:ResultatsViewModel"
              Shell.NavBarIsVisible="False"
-             Title="Résultats">
+             Title="{loc:Translate Resultats_Title}">
 
     <Grid RowDefinitions="Auto,*">
 
@@ -27,16 +28,16 @@
             </Grid>
 
             <Grid ColumnDefinitions="Auto,Auto,*" ColumnSpacing="8">
-                <Button Grid.Column="0" Text="Liste" HeightRequest="38" FontSize="13" Padding="16,0"
+                <Button Grid.Column="0" Text="{loc:Translate Resultats_List}" HeightRequest="38" FontSize="13" Padding="16,0"
                         Command="{Binding ShowListCommand}" />
-                <Button Grid.Column="1" Text="Carte" Style="{StaticResource SecondaryButton}"
+                <Button Grid.Column="1" Text="{loc:Translate Resultats_Map}" Style="{StaticResource SecondaryButton}"
                         HeightRequest="38" FontSize="13" Padding="16,0"
                         Command="{Binding ShowMapViewCommand}" />
                 <Label Grid.Column="2" Text="{Binding ResultCountText}" Style="{StaticResource Caption}"
                        VerticalOptions="Center" HorizontalTextAlignment="End" />
             </Grid>
 
-            <Label Text="Affichage optimisé : une seule image basse consommation par annonce pour limiter le transfert réseau."
+            <Label Text="{loc:Translate Resultats_Optimized}"
                    Style="{StaticResource Caption}" FontSize="12" />
         </VerticalStackLayout>
 
@@ -62,7 +63,7 @@
                                             <Border StrokeShape="RoundRectangle 999" StrokeThickness="0"
                                                     BackgroundColor="{StaticResource Secondary}" Padding="8,3"
                                                     HorizontalOptions="Start" IsVisible="{Binding AvailableNow}">
-                                                <Label Text="Dispo immédiate" FontSize="10" FontFamily="InterSemiBold"
+                                                <Label Text="{loc:Translate Resultats_AvailableNow}" FontSize="10" FontFamily="InterSemiBold"
                                                        TextColor="{StaticResource Gray900}" />
                                             </Border>
                                             <Label Text="{Binding Title}" FontFamily="InterSemiBold" FontSize="15" />
@@ -77,17 +78,24 @@
                                     </Grid>
 
                                     <Grid ColumnDefinitions="*,*,Auto" ColumnSpacing="10">
-                                        <Button Grid.Column="0" Text="Détails" HeightRequest="42" FontSize="14"
+                                        <Button Grid.Column="0" Text="{loc:Translate Resultats_Details}" HeightRequest="42" FontSize="14"
                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ResultatsViewModel}}, Path=OpenDetailCommand}"
                                                 CommandParameter="{Binding .}" />
-                                        <Button Grid.Column="1" Text="Contacter" Style="{StaticResource SecondaryButton}"
+                                        <Button Grid.Column="1" Text="{loc:Translate Resultats_Contact}" Style="{StaticResource SecondaryButton}"
                                                 HeightRequest="42" FontSize="14"
                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ResultatsViewModel}}, Path=ContactCommand}"
                                                 CommandParameter="{Binding .}" />
                                         <Border Grid.Column="2" StrokeShape="RoundRectangle 8" StrokeThickness="1"
                                                 Stroke="{StaticResource Neutral}" Padding="10,6" VerticalOptions="Center"
                                                 IsVisible="{Binding EcoClass, Converter={StaticResource IsNotEmpty}}">
-                                            <Label Text="{Binding EcoClass, StringFormat='Éco {0}'}" FontSize="13" FontFamily="InterSemiBold" />
+                                            <Label FontSize="13" FontFamily="InterSemiBold">
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="{loc:Translate Resultats_EcoPrefix}" />
+                                                        <Span Text="{Binding EcoClass}" />
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
                                         </Border>
                                     </Grid>
                                 </VerticalStackLayout>
@@ -98,9 +106,9 @@
 
                 <!-- Charger plus -->
                 <VerticalStackLayout Spacing="6">
-                    <Button Text="Charger plus (10 suivantes)" Style="{StaticResource OutlinedButton}"
+                    <Button Text="{loc:Translate Resultats_LoadMore}" Style="{StaticResource OutlinedButton}"
                             Command="{Binding LoadMoreCommand}" />
-                    <Label Text="Pas de défilement infini pour limiter la consommation réseau et batterie."
+                    <Label Text="{loc:Translate Resultats_NoInfinite}"
                            Style="{StaticResource Caption}" HorizontalTextAlignment="Center" />
                 </VerticalStackLayout>
 
@@ -114,12 +122,12 @@
                     BackgroundColor="{StaticResource Secondary}" VerticalOptions="FillAndExpand"
                     HorizontalOptions="FillAndExpand">
                 <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="8">
-                    <Label Text="Vue carte" Style="{StaticResource Subtitle}" HorizontalOptions="Center" />
-                    <Label Text="Rendu cartographique à venir (données allégées)." Style="{StaticResource Caption}"
+                    <Label Text="{loc:Translate Resultats_MapTitle}" Style="{StaticResource Subtitle}" HorizontalOptions="Center" />
+                    <Label Text="{loc:Translate Resultats_MapSoon}" Style="{StaticResource Caption}"
                            HorizontalOptions="Center" HorizontalTextAlignment="Center" />
                 </VerticalStackLayout>
             </Border>
-            <Label Text="Affichage optimisé : marqueurs chargés à la demande." Style="{StaticResource Caption}"
+            <Label Text="{loc:Translate Resultats_MapOptimized}" Style="{StaticResource Caption}"
                    HorizontalTextAlignment="Center" />
         </VerticalStackLayout>
 

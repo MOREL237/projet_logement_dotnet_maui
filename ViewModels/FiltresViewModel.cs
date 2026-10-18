@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using GetHome.Localization;
 using GetHome.Models;
 
 namespace GetHome.ViewModels;
@@ -20,6 +21,13 @@ public partial class FiltresViewModel : ObservableObject
                 if (e.PropertyName == nameof(SelectOption.IsSelected))
                     OnPropertyChanged(nameof(RoomSelectionText));
             };
+
+        LocalizationService.Instance.PropertyChanged += (_, _) =>
+        {
+            OnPropertyChanged(nameof(RoomSelectionText));
+            OnPropertyChanged(nameof(MedianRentText));
+            OnPropertyChanged(nameof(ApplyButtonText));
+        };
     }
 
     // ---- Localisation ----
@@ -43,7 +51,7 @@ public partial class FiltresViewModel : ObservableObject
     [ObservableProperty]
     private double maxRent = 75000;
 
-    public string MedianRentText => "Prix médian du secteur : 50 000 FCFA/mois";
+    public string MedianRentText => LocalizationService.Instance["Filtres_MedianRent"];
 
     // ---- Type d'habitat ----
     [ObservableProperty]
@@ -66,7 +74,9 @@ public partial class FiltresViewModel : ObservableObject
         get
         {
             var count = RoomOptions.Count(o => o.IsSelected);
-            return count == 0 ? "Aucune sélection" : $"{count} sélection{(count > 1 ? "s" : "")}";
+            return count == 0
+            ? LocalizationService.Instance["Filtres_NoneSelected"]
+            : string.Format(LocalizationService.Instance["Filtres_SelectedCount"], count);
         }
     }
 
@@ -89,7 +99,7 @@ public partial class FiltresViewModel : ObservableObject
 
     // ---- Résultat ----
     public int ResultCount { get; } = 24;
-    public string ApplyButtonText => $"Afficher les logements {ResultCount}";
+    public string ApplyButtonText => string.Format(LocalizationService.Instance["Filtres_Apply"], ResultCount);
 
     // ---- Commandes ----
     [RelayCommand] private void SelectDouala() => City = FilterCity.Douala;

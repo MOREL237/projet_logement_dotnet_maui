@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using GetHome.Localization;
 using GetHome.Models;
 using GetHome.Services;
 
@@ -48,8 +49,7 @@ public partial class DetailAnnonceViewModel : ObservableObject, IQueryAttributab
         if (Listing is null)
             return;
 
-        await Shell.Current.DisplayAlert("GetHome",
-            $"Contacter {Listing.OwnerName} par message à venir.", "OK");
+        await Shell.Current.GoToAsync("//main/messages");
     }
 
     [RelayCommand]
@@ -58,13 +58,21 @@ public partial class DetailAnnonceViewModel : ObservableObject, IQueryAttributab
         if (Listing is null)
             return;
 
-        await Shell.Current.DisplayAlert("GetHome",
-            $"Appeler {Listing.OwnerName} à venir.", "OK");
+        try
+        {
+            // OwnerPhone not present on Listing model; keep placeholder fallback.
+            await Launcher.OpenAsync(new Uri("tel:0000000000"));
+        }
+        catch
+        {
+            await Shell.Current.DisplayAlert("GetHome",
+                string.Format(LocalizationService.Instance["Detail_CallSoon"], Listing.OwnerName), "OK");
+        }
     }
 
     [RelayCommand]
     private async Task PlanVisitAsync() =>
-        await Shell.Current.DisplayAlert("GetHome", "Planification d'une visite à venir.", "OK");
+        await Shell.Current.DisplayAlert("GetHome", LocalizationService.Instance["Detail_VisitSoon"], "OK");
 
     [RelayCommand]
     private async Task GoBackAsync() => await Shell.Current.GoToAsync("..");

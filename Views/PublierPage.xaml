@@ -4,11 +4,12 @@
              xmlns:vm="clr-namespace:GetHome.ViewModels"
              xmlns:models="clr-namespace:GetHome.Models"
              xmlns:components="clr-namespace:GetHome.Components"
+             xmlns:loc="clr-namespace:GetHome.Localization"
              x:Class="GetHome.Views.PublierPage"
              x:DataType="vm:PublierViewModel"
              Shell.NavBarIsVisible="False"
              Shell.TabBarIsVisible="False"
-             Title="Publier une annonce">
+             Title="{loc:Translate Publier_Title}">
 
     <Grid RowDefinitions="Auto,*,Auto">
 
@@ -22,7 +23,7 @@
                 </Label>
                 <Label Grid.Column="1" Text="10" FontFamily="InterBold" FontSize="14"
                        TextColor="{StaticResource Gray500}" VerticalOptions="Center" Margin="0,0,10,0" />
-                <Label Grid.Column="2" Text="Publier une annonce" Style="{StaticResource Subtitle}" FontSize="16"
+                <Label Grid.Column="2" Text="{loc:Translate Publier_Title}" Style="{StaticResource Subtitle}" FontSize="16"
                        VerticalOptions="Center" />
             </Grid>
 
@@ -33,10 +34,24 @@
                         <Label Text="1" FontSize="12" TextColor="{StaticResource White}" FontFamily="InterBold"
                                HorizontalOptions="Center" VerticalOptions="Center" />
                     </Border>
-                    <Label Text="Caractéristiques" FontSize="13" FontFamily="InterSemiBold" VerticalOptions="Center" />
+                    <Label Text="{loc:Translate Publier_StepFeatures}" FontSize="13" FontFamily="InterSemiBold" VerticalOptions="Center" />
                 </HorizontalStackLayout>
-                <Label Text="2 Photos" FontSize="13" TextColor="{StaticResource Gray500}" VerticalOptions="Center" />
-                <Label Text="3 Validation" FontSize="13" TextColor="{StaticResource Gray500}" VerticalOptions="Center" />
+                <Label FontSize="13" TextColor="{StaticResource Gray500}" VerticalOptions="Center">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="2 " />
+                            <Span Text="{loc:Translate Publier_StepPhotos}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Label FontSize="13" TextColor="{StaticResource Gray500}" VerticalOptions="Center">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="3 " />
+                            <Span Text="{loc:Translate Publier_StepValidation}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
             </HorizontalStackLayout>
         </VerticalStackLayout>
 
@@ -44,42 +59,42 @@
             <VerticalStackLayout Padding="20,8,20,20" Spacing="22" MaximumWidthRequest="560">
 
                 <VerticalStackLayout Spacing="4">
-                    <Label Text="Décrivez votre logement" Style="{StaticResource Headline}" FontSize="22" />
-                    <Label Text="Renseignez les données certifiées pour un traitement accéléré des dossiers sans intermédiaires."
+                    <Label Text="{loc:Translate Publier_Headline}" Style="{StaticResource Headline}" FontSize="22" />
+                    <Label Text="{loc:Translate Publier_Intro}"
                            Style="{StaticResource Caption}" />
                 </VerticalStackLayout>
 
                 <!-- Type de bien -->
                 <VerticalStackLayout Spacing="10">
-                    <Label Text="Type de bien" Style="{StaticResource Subtitle}" FontSize="16" />
+                    <Label Text="{loc:Translate Publier_PropertyType}" Style="{StaticResource Subtitle}" FontSize="16" />
                     <FlexLayout Direction="Row" Wrap="Wrap" JustifyContent="Start">
-                        <components:ChipView Text="Appartement" Margin="0,0,8,8"
+                        <components:ChipView Text="{loc:Translate Publier_Apartment}" Margin="0,0,8,8"
                                              IsSelected="{Binding IsAppartementSelected}" Command="{Binding SelectAppartementCommand}" />
-                        <components:ChipView Text="Studio" Margin="0,0,8,8"
+                        <components:ChipView Text="{loc:Translate Publier_Studio}" Margin="0,0,8,8"
                                              IsSelected="{Binding IsStudioSelected}" Command="{Binding SelectStudioCommand}" />
-                        <components:ChipView Text="Maison" Margin="0,0,8,8"
+                        <components:ChipView Text="{loc:Translate Publier_House}" Margin="0,0,8,8"
                                              IsSelected="{Binding IsMaisonSelected}" Command="{Binding SelectMaisonCommand}" />
                     </FlexLayout>
                 </VerticalStackLayout>
 
                 <!-- Adresse -->
                 <VerticalStackLayout Spacing="10">
-                    <Label Text="Adresse du bien" Style="{StaticResource Subtitle}" FontSize="16" />
+                    <Label Text="{loc:Translate Publier_Address}" Style="{StaticResource Subtitle}" FontSize="16" />
                     <Border Style="{StaticResource FieldBorder}">
-                        <Entry Text="{Binding Address}" Placeholder="ex. Rue Njo-Njo, Bonapriso, Douala" />
+                        <Entry Text="{Binding Address}" Placeholder="{loc:Translate Publier_AddressPlaceholder}" />
                     </Border>
                 </VerticalStackLayout>
 
                 <!-- Surface + pièces -->
                 <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
                     <VerticalStackLayout Grid.Column="0" Spacing="8">
-                        <Label Text="Surface habitable" Style="{StaticResource Subtitle}" FontSize="14" />
+                        <Label Text="{loc:Translate Publier_Surface}" Style="{StaticResource Subtitle}" FontSize="14" />
                         <Border Style="{StaticResource FieldBorder}">
                             <Entry Text="{Binding Surface}" Keyboard="Numeric" Placeholder="32" />
                         </Border>
                     </VerticalStackLayout>
                     <VerticalStackLayout Grid.Column="1" Spacing="8">
-                        <Label Text="Nombre de pièces" Style="{StaticResource Subtitle}" FontSize="14" />
+                        <Label Text="{loc:Translate Publier_Rooms}" Style="{StaticResource Subtitle}" FontSize="14" />
                         <Border Style="{StaticResource FieldBorder}">
                             <Entry Text="{Binding Rooms}" Keyboard="Numeric" Placeholder="2" />
                         </Border>
@@ -88,11 +103,11 @@
 
                 <!-- Régime de location -->
                 <VerticalStackLayout Spacing="10">
-                    <Label Text="Régime de location" Style="{StaticResource Subtitle}" FontSize="16" />
+                    <Label Text="{loc:Translate Publier_Furnishing}" Style="{StaticResource Subtitle}" FontSize="16" />
                     <FlexLayout Direction="Row" Wrap="Wrap" JustifyContent="Start">
-                        <components:ChipView Text="Meublé" Margin="0,0,8,8"
+                        <components:ChipView Text="{loc:Translate Publier_Furnished}" Margin="0,0,8,8"
                                              IsSelected="{Binding IsMeubleSelected}" Command="{Binding SelectMeubleCommand}" />
-                        <components:ChipView Text="Non meublé" Margin="0,0,8,8"
+                        <components:ChipView Text="{loc:Translate Publier_Unfurnished}" Margin="0,0,8,8"
                                              IsSelected="{Binding IsNonMeubleSelected}" Command="{Binding SelectNonMeubleCommand}" />
                     </FlexLayout>
                 </VerticalStackLayout>
@@ -100,16 +115,16 @@
                 <!-- Étage + ascenseur -->
                 <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
                     <VerticalStackLayout Grid.Column="0" Spacing="8">
-                        <Label Text="Étage" Style="{StaticResource Subtitle}" FontSize="14" />
+                        <Label Text="{loc:Translate Publier_Floor}" Style="{StaticResource Subtitle}" FontSize="14" />
                         <Border Style="{StaticResource FieldBorder}">
                             <Entry Text="{Binding Floor}" Keyboard="Numeric" Placeholder="2" />
                         </Border>
                     </VerticalStackLayout>
                     <VerticalStackLayout Grid.Column="1" Spacing="8" VerticalOptions="Center">
-                        <Label Text="Ascenseur" Style="{StaticResource Subtitle}" FontSize="14" />
+                        <Label Text="{loc:Translate Publier_Elevator}" Style="{StaticResource Subtitle}" FontSize="14" />
                         <HorizontalStackLayout Spacing="6">
                             <CheckBox IsChecked="{Binding HasElevator}" VerticalOptions="Center" />
-                            <Label Text="Oui" FontSize="14" VerticalOptions="Center" />
+                            <Label Text="{loc:Translate Publier_Yes}" FontSize="14" VerticalOptions="Center" />
                         </HorizontalStackLayout>
                     </VerticalStackLayout>
                 </Grid>
@@ -117,7 +132,7 @@
                 <!-- DPE -->
                 <VerticalStackLayout Spacing="10">
                     <Grid ColumnDefinitions="*,Auto">
-                        <Label Text="Éco-classe (indicateur énergétique GetHome)" Style="{StaticResource Subtitle}" FontSize="16" />
+                        <Label Text="{loc:Translate Publier_EcoLabel}" Style="{StaticResource Subtitle}" FontSize="16" />
                         <Label Grid.Column="1" Text="{Binding EcoSummaryText}" Style="{StaticResource Caption}"
                                VerticalOptions="Center" />
                     </Grid>
@@ -134,7 +149,7 @@
                     </FlexLayout>
                     <Border StrokeShape="RoundRectangle 12" StrokeThickness="0"
                             BackgroundColor="{StaticResource Secondary}" Padding="12,8">
-                        <Label Text="Les annonces avec Éco-classe A, B ou C bénéficient d'une mise en avant naturelle sans surcoût serveur."
+                        <Label Text="{loc:Translate Publier_EcoNote}"
                                Style="{StaticResource Caption}" FontSize="12" />
                     </Border>
                 </VerticalStackLayout>
@@ -145,8 +160,8 @@
         <!-- Pied -->
         <VerticalStackLayout Grid.Row="2" Padding="20,12,20,20" Spacing="8"
                              BackgroundColor="{AppThemeBinding Light={StaticResource PageBackground}, Dark={StaticResource Tertiary}}">
-            <Button Text="Continuer vers les photos (Étape 2/3)" Command="{Binding ContinueCommand}" />
-            <Button Text="Enregistrer le brouillon" Style="{StaticResource OutlinedButton}"
+            <Button Text="{loc:Translate Publier_Continue}" Command="{Binding ContinueCommand}" />
+            <Button Text="{loc:Translate Publier_Draft}" Style="{StaticResource OutlinedButton}"
                     Command="{Binding SaveDraftCommand}" />
         </VerticalStackLayout>
 

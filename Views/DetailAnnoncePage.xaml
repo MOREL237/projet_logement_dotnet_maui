@@ -3,11 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:GetHome.ViewModels"
              xmlns:models="clr-namespace:GetHome.Models"
+             xmlns:loc="clr-namespace:GetHome.Localization"
              x:Class="GetHome.Views.DetailAnnoncePage"
              x:DataType="vm:DetailAnnonceViewModel"
              Shell.NavBarIsVisible="False"
              Shell.TabBarIsVisible="False"
-             Title="Détail">
+             Title="{loc:Translate Detail_Title}">
 
     <Grid RowDefinitions="Auto,*,Auto">
 
@@ -18,7 +19,7 @@
                     <TapGestureRecognizer Command="{Binding GoBackCommand}" />
                 </Label.GestureRecognizers>
             </Label>
-            <Label Grid.Column="1" Text="Détail de l'annonce" Style="{StaticResource Subtitle}" FontSize="16"
+            <Label Grid.Column="1" Text="{loc:Translate Detail_BarTitle}" Style="{StaticResource Subtitle}" FontSize="16"
                    VerticalOptions="Center" />
             <Label Grid.Column="2" Text="{Binding FavoriteIcon}" FontSize="24"
                    TextColor="{StaticResource Primary}" VerticalOptions="Center" Padding="12,0,0,0">
@@ -44,8 +45,14 @@
                     <Grid ColumnDefinitions="*,Auto">
                         <Label Grid.Column="0" Text="{Binding Listing.Title}" Style="{StaticResource Headline}"
                                FontSize="22" />
-                        <Label Grid.Column="1" Text="{Binding Listing.EcoClass, StringFormat='Éco-classe {0}'}" FontSize="13"
-                               FontFamily="InterSemiBold" VerticalOptions="Start" Padding="8,0,0,0" />
+                        <Label Grid.Column="1" FontSize="13" FontFamily="InterSemiBold" VerticalOptions="Start" Padding="8,0,0,0">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{loc:Translate Detail_EcoPrefix}" />
+                                    <Span Text="{Binding Listing.EcoClass}" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
                     </Grid>
                     <Label Text="{Binding Listing.Neighborhood}" Style="{StaticResource Caption}" />
                 </VerticalStackLayout>
@@ -60,7 +67,7 @@
                 <!-- Caractéristiques -->
                 <Border Style="{StaticResource Card}">
                     <VerticalStackLayout Spacing="10">
-                        <Label Text="Caractéristiques" Style="{StaticResource Subtitle}" FontSize="15" />
+                        <Label Text="{loc:Translate Detail_Features}" Style="{StaticResource Subtitle}" FontSize="15" />
                         <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" ColumnSpacing="10" RowSpacing="8">
                             <Label Grid.Row="0" Grid.Column="0" Text="{Binding Listing.SurfaceText}" FontSize="14" />
                             <Label Grid.Row="0" Grid.Column="1" Text="{Binding Listing.Rooms}" FontSize="14" />
@@ -73,7 +80,7 @@
 
                 <!-- Équipements -->
                 <VerticalStackLayout Spacing="10">
-                    <Label Text="Équipements &amp; commodités" Style="{StaticResource Subtitle}" FontSize="15" />
+                    <Label Text="{loc:Translate Detail_Amenities}" Style="{StaticResource Subtitle}" FontSize="15" />
                     <FlexLayout Direction="Row" Wrap="Wrap" JustifyContent="Start"
                                 BindableLayout.ItemsSource="{Binding Listing.Amenities}">
                         <BindableLayout.ItemTemplate>
@@ -89,14 +96,14 @@
 
                 <!-- Description -->
                 <VerticalStackLayout Spacing="10">
-                    <Label Text="Description" Style="{StaticResource Subtitle}" FontSize="15" />
+                    <Label Text="{loc:Translate Detail_Description}" Style="{StaticResource Subtitle}" FontSize="15" />
                     <Label Text="{Binding Listing.Description}" FontSize="14" LineHeight="1.35" />
                 </VerticalStackLayout>
 
                 <!-- Propriétaire -->
                 <Border Style="{StaticResource Card}">
                     <VerticalStackLayout Spacing="12">
-                        <Label Text="Propriétaire" Style="{StaticResource Subtitle}" FontSize="15" />
+                        <Label Text="{loc:Translate Detail_Owner}" Style="{StaticResource Subtitle}" FontSize="15" />
                         <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
                             <Border Grid.Column="0" StrokeShape="RoundRectangle 999" StrokeThickness="0"
                                     WidthRequest="52" HeightRequest="52"
@@ -108,17 +115,17 @@
                             <VerticalStackLayout Grid.Column="1" Spacing="2">
                                 <HorizontalStackLayout Spacing="6">
                                     <Label Text="{Binding Listing.OwnerName}" FontFamily="InterSemiBold" FontSize="15" />
-                                    <Label Text="✓ Vérifié" Style="{StaticResource Caption}"
+                                    <Label Text="{loc:Translate Detail_Verified}" Style="{StaticResource Caption}"
                                            TextColor="{StaticResource Success}" IsVisible="{Binding Listing.OwnerVerified}" />
                                 </HorizontalStackLayout>
                                 <Label Style="{StaticResource Caption}">
                                     <Label.FormattedText>
                                         <FormattedString>
-                                            <Span Text="Réponse en " />
+                                            <Span Text="{loc:Translate Detail_ReplyIn}" />
                                             <Span Text="{Binding Listing.OwnerResponseTime}" />
                                             <Span Text=" · " />
                                             <Span Text="{Binding Listing.OwnerResponseRate}" />
-                                            <Span Text=" du temps" />
+                                            <Span Text="{loc:Translate Detail_ReplySuffix}" />
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>
@@ -126,20 +133,20 @@
                                     <Label.FormattedText>
                                         <FormattedString>
                                             <Span Text="{Binding Listing.OwnerListingsCount, StringFormat='{0:0}'}" />
-                                            <Span Text=" annonces actives" />
+                                            <Span Text="{loc:Translate Detail_ActiveListings}" />
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>
                             </VerticalStackLayout>
                         </Grid>
-                        <Label Text="Contact direct : pas de démarcheur ni de commission d'agence."
+                        <Label Text="{loc:Translate Detail_ContactNote}"
                                Style="{StaticResource Caption}" FontSize="12" />
-                        <Label Text="Caution et avance à convenir. Paiement : espèces, MTN MoMo ou Orange Money."
+                        <Label Text="{loc:Translate Detail_PaymentNote}"
                                Style="{StaticResource Caption}" FontSize="12" />
                     </VerticalStackLayout>
                 </Border>
 
-                <Label Text="Fiche allégée : photos basse consommation et texte optimisé."
+                <Label Text="{loc:Translate Detail_LightSheet}"
                        Style="{StaticResource Caption}" HorizontalTextAlignment="Center" />
             </VerticalStackLayout>
         </ScrollView>
@@ -148,8 +155,8 @@
         <Grid Grid.Row="2" ColumnDefinitions="*,*" ColumnSpacing="12" Padding="20,12,20,20"
               BackgroundColor="{AppThemeBinding Light={StaticResource PageBackground}, Dark={StaticResource Tertiary}}"
               IsVisible="{Binding HasListing}">
-            <Button Grid.Column="0" Text="Contacter" Command="{Binding ContactCommand}" HeightRequest="52" />
-            <Button Grid.Column="1" Text="Appeler" Style="{StaticResource SecondaryButton}"
+            <Button Grid.Column="0" Text="{loc:Translate Detail_ContactBtn}" Command="{Binding ContactCommand}" HeightRequest="52" />
+            <Button Grid.Column="1" Text="{loc:Translate Detail_Call}" Style="{StaticResource SecondaryButton}"
                     Command="{Binding CallCommand}" HeightRequest="52" />
         </Grid>
 

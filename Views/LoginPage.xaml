@@ -29,20 +29,20 @@
 
             <!-- E-mail -->
             <VerticalStackLayout Spacing="8">
-                 <Label Text="{loc:Translate Common_Email}" Style="{StaticResource Subtitle}" FontSize="14" />
-                 <Border Style="{StaticResource FieldBorder}">
-                     <Border.Triggers>
-                         <DataTrigger TargetType="Border" Binding="{Binding HasEmailError}" Value="True">
-                             <Setter Property="Stroke" Value="{StaticResource Error}" />
-                             <Setter Property="StrokeThickness" Value="1.5" />
-                         </DataTrigger>
-                     </Border.Triggers>
-                     <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
-                         <Entry Text="{Binding Email}"
-                                Placeholder="{loc:Translate Common_EmailPlaceholder}"
-                                Keyboard="Email"
-                                VerticalOptions="Center"
-                                IsEnabled="{Binding IsNotBusy}" />
+                <Label Text="{loc:Translate Common_Email}" Style="{StaticResource Subtitle}" FontSize="14" />
+                <Border Style="{StaticResource FieldBorder}">
+                    <Border.Triggers>
+                        <DataTrigger TargetType="Border" Binding="{Binding HasEmailError}" Value="True">
+                            <Setter Property="Stroke" Value="{StaticResource Error}" />
+                            <Setter Property="StrokeThickness" Value="1.5" />
+                        </DataTrigger>
+                    </Border.Triggers>
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                        <Entry Text="{Binding Email}"
+                               Placeholder="{loc:Translate Common_EmailPlaceholder}"
+                               Keyboard="Email"
+                               VerticalOptions="Center"
+                               IsEnabled="{Binding IsNotBusy}" />
                         <Image Grid.Column="1"
                                Source="error_circle.svg"
                                WidthRequest="22" HeightRequest="22"
@@ -55,33 +55,33 @@
 
             <!-- Mot de passe -->
             <VerticalStackLayout Spacing="8">
-                 <Label Text="{loc:Translate Common_Password}" Style="{StaticResource Subtitle}" FontSize="14" />
-                 <Border Style="{StaticResource FieldBorder}">
-                     <Border.Triggers>
-                         <DataTrigger TargetType="Border" Binding="{Binding HasPasswordError}" Value="True">
-                             <Setter Property="Stroke" Value="{StaticResource Error}" />
-                             <Setter Property="StrokeThickness" Value="1.5" />
-                         </DataTrigger>
-                     </Border.Triggers>
-                     <Grid ColumnDefinitions="*,Auto">
-                         <Entry Text="{Binding Password}"
-                                Placeholder="{loc:Translate Common_PasswordPlaceholder}"
-                                IsPassword="{Binding IsPasswordHidden}"
-                                VerticalOptions="Center"
-                                IsEnabled="{Binding IsNotBusy}" />
-                         <ImageButton Grid.Column="1"
-                                      Source="{Binding PasswordToggleIcon}"
-                                      Command="{Binding TogglePasswordCommand}"
-                                      BackgroundColor="Transparent"
-                                      WidthRequest="44" HeightRequest="44"
-                                      Padding="10"
-                                      VerticalOptions="Center"
-                                      SemanticProperties.Description="{loc:Translate Common_ShowPassword}" />
+                <Label Text="{loc:Translate Common_Password}" Style="{StaticResource Subtitle}" FontSize="14" />
+                <Border Style="{StaticResource FieldBorder}">
+                    <Border.Triggers>
+                        <DataTrigger TargetType="Border" Binding="{Binding HasPasswordError}" Value="True">
+                            <Setter Property="Stroke" Value="{StaticResource Error}" />
+                            <Setter Property="StrokeThickness" Value="1.5" />
+                        </DataTrigger>
+                    </Border.Triggers>
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Entry Text="{Binding Password}"
+                               Placeholder="{loc:Translate Common_PasswordPlaceholder}"
+                               IsPassword="{Binding IsPasswordHidden}"
+                               VerticalOptions="Center"
+                               IsEnabled="{Binding IsNotBusy}" />
+                        <ImageButton Grid.Column="1"
+                                     Source="{Binding PasswordToggleIcon}"
+                                     Command="{Binding TogglePasswordCommand}"
+                                     BackgroundColor="Transparent"
+                                     WidthRequest="44" HeightRequest="44"
+                                     Padding="10"
+                                     VerticalOptions="Center"
+                                     SemanticProperties.Description="{loc:Translate Common_ShowPassword}" />
                     </Grid>
                 </Border>
                 <Label Text="{Binding PasswordError}" IsVisible="{Binding HasPasswordError}" Style="{StaticResource ErrorText}" FontFamily="InterSemiBold" />
 
-                 <Label Text="{loc:Translate Login_Forgot}"
+                <Label Text="{loc:Translate Login_Forgot}"
                         FontFamily="InterSemiBold" FontSize="14"
                         TextDecorations="Underline"
                         HorizontalOptions="End"
@@ -100,8 +100,8 @@
 
             <!-- Lien vers l'inscription -->
             <HorizontalStackLayout HorizontalOptions="Center" Spacing="6">
-                 <Label Text="{loc:Translate Login_NoAccount}" Style="{StaticResource Caption}" FontSize="15" VerticalOptions="Center" />
-                 <Label Text="{loc:Translate Login_CreateAccount}"
+                <Label Text="{loc:Translate Login_NoAccount}" Style="{StaticResource Caption}" FontSize="15" VerticalOptions="Center" />
+                <Label Text="{loc:Translate Login_CreateAccount}"
                         FontFamily="InterSemiBold" FontSize="15"
                         TextDecorations="Underline"
                         VerticalOptions="Center"

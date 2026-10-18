@@ -79,7 +79,7 @@
                             </DataTemplate>
                         </BindableLayout.ItemTemplate>
                     </FlexLayout>
-                    <Label Text="Dossier chiffré sur serveur local bas-carbone. Transmis aux bailleurs uniquement avec votre consentement exprès."
+                    <Label Text="{loc:Translate Profil_DossierNote}"
                            Style="{StaticResource Caption}" FontSize="12" />
                 </VerticalStackLayout>
             </Border>

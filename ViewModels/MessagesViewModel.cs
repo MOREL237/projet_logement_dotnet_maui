@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using GetHome.Localization;
 using GetHome.Models;
 using GetHome.Services;
 
@@ -14,6 +15,12 @@ public partial class MessagesViewModel : ObservableObject
     public MessagesViewModel(IDataService dataService)
     {
         _dataService = dataService;
+        LocalizationService.Instance.PropertyChanged += (_, _) =>
+        {
+            OnPropertyChanged(nameof(AllTabText));
+            OnPropertyChanged(nameof(UnreadTabText));
+            OnPropertyChanged(nameof(VisitsTabText));
+        };
     }
 
     public ObservableCollection<Conversation> Conversations { get; } = new();
@@ -48,9 +55,9 @@ public partial class MessagesViewModel : ObservableObject
     public bool IsUnreadSelected => Filter == MessageFilter.Unread;
     public bool IsVisitsSelected => Filter == MessageFilter.Visits;
 
-    public string AllTabText => $"Tout ({TotalCount})";
-    public string UnreadTabText => $"Non lus {UnreadCount}";
-    public string VisitsTabText => $"Visites planifiées ({VisitsCount})";
+    public string AllTabText => string.Format(LocalizationService.Instance["Messages_TabAll"], TotalCount);
+    public string UnreadTabText => string.Format(LocalizationService.Instance["Messages_TabUnread"], UnreadCount);
+    public string VisitsTabText => string.Format(LocalizationService.Instance["Messages_TabVisits"], VisitsCount);
 
     partial void OnFilterChanged(MessageFilter value) => Apply();
 
@@ -106,7 +113,7 @@ public partial class MessagesViewModel : ObservableObject
             return;
 
         await Shell.Current.DisplayAlert("GetHome",
-            $"Conversation avec {conversation.OwnerName} à venir.", "OK");
+            string.Format(LocalizationService.Instance["Messages_OpenSoon"], conversation.OwnerName), "OK");
     }
 
     [RelayCommand]
@@ -119,14 +126,16 @@ public partial class MessagesViewModel : ObservableObject
         ComposerText = string.Empty;
 
         await Shell.Current.DisplayAlert("GetHome",
-            $"Message envoyé (simulation) : « {message} »", "OK");
+            string.Format(LocalizationService.Instance["Messages_Sent"], message), "OK");
     }
 
     [RelayCommand]
     private async Task ArchiveAllAsync()
     {
-        var confirmed = await Shell.Current.DisplayAlert("Archiver tout",
-            "Archiver toutes les conversations inactives ?", "Archiver", "Annuler");
+        var confirmed = await Shell.Current.DisplayAlert(LocalizationService.Instance["Messages_ArchiveTitle"],
+            LocalizationService.Instance["Messages_ArchivePrompt"],
+            LocalizationService.Instance["Messages_Archive"],
+            LocalizationService.Instance["Messages_Cancel"]);
         if (!confirmed)
             return;
 

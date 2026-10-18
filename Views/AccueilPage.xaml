@@ -132,8 +132,14 @@
                                     <Border StrokeShape="RoundRectangle 8" StrokeThickness="1"
                                             Stroke="{StaticResource Neutral}" Padding="8,3" Margin="0,0,8,6"
                                             IsVisible="{Binding EcoClass, Converter={StaticResource IsNotEmpty}}">
-                                        <Label Text="{Binding EcoClass, StringFormat='{loc:Translate Accueil_EcoBadge}'}" FontSize="12"
-                                               FontFamily="InterSemiBold" />
+                                        <Label FontSize="12" FontFamily="InterSemiBold">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{loc:Translate Accueil_EcoBadgePrefix}" />
+                                                    <Span Text="{Binding EcoClass}" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
                                     </Border>
                                     <Border StrokeShape="RoundRectangle 8" StrokeThickness="1"
                                             Stroke="{StaticResource Neutral}" Padding="8,3" Margin="0,0,8,6">
@@ -151,10 +157,10 @@
 
                                 <!-- Actions -->
                                 <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
-                                    <Button Grid.Column="0" Text="Voir l'annonce" HeightRequest="44" FontSize="14"
+                                    <Button Grid.Column="0" Text="{loc:Translate Accueil_ViewListing}" HeightRequest="44" FontSize="14"
                                             Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AccueilViewModel}}, Path=OpenListingCommand}"
                                             CommandParameter="{Binding .}" />
-                                    <Button Grid.Column="1" Text="Contacter" Style="{StaticResource SecondaryButton}"
+                                    <Button Grid.Column="1" Text="{loc:Translate Accueil_Contact}" Style="{StaticResource SecondaryButton}"
                                             HeightRequest="44" FontSize="14"
                                             Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AccueilViewModel}}, Path=ContactCommand}"
                                             CommandParameter="{Binding .}" />
@@ -170,9 +176,9 @@
             <Border StrokeShape="RoundRectangle 16" StrokeThickness="1" Stroke="{StaticResource Neutral}"
                     Padding="16" BackgroundColor="Transparent">
                 <VerticalStackLayout Spacing="4">
-                    <Label Text="Objectif &lt; 3 clics pour contacter" FontFamily="InterSemiBold" FontSize="14" />
+                    <Label Text="{loc:Translate Accueil_EcoNoteTitle}" FontFamily="InterSemiBold" FontSize="14" />
                     <Label Style="{StaticResource Caption}"
-                           Text="Dossier vérifié automatiquement transmis aux propriétaires sans spam." />
+                           Text="{loc:Translate Accueil_EcoNoteDetail}" />
                 </VerticalStackLayout>
             </Border>
 

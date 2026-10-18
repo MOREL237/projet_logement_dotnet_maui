@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using GetHome.Localization;
 using GetHome.Models;
 using GetHome.Services;
 
@@ -13,6 +14,12 @@ public partial class ResultatsViewModel : ObservableObject
     public ResultatsViewModel(IDataService dataService)
     {
         _dataService = dataService;
+        LocalizationService.Instance.PropertyChanged += (_, _) =>
+        {
+            OnPropertyChanged(nameof(SortText));
+            OnPropertyChanged(nameof(FilterButtonText));
+            OnPropertyChanged(nameof(ResultCountText));
+        };
     }
 
     public ObservableCollection<Listing> Listings { get; } = new();
@@ -33,9 +40,9 @@ public partial class ResultatsViewModel : ObservableObject
     public bool IsListView => !ShowMap;
     public bool IsMapView => ShowMap;
 
-    public string ResultCountText => $"{Listings.Count} annonces vérifiées · Zéro intermédiaire";
-    public string SortText => "Tri : Plus récents";
-    public string FilterButtonText => $"Filtres · {FilterCount}";
+    public string ResultCountText => string.Format(LocalizationService.Instance["Resultats_CountText"], Listings.Count);
+    public string SortText => LocalizationService.Instance["Resultats_Sort"];
+    public string FilterButtonText => string.Format(LocalizationService.Instance["Resultats_Filters"], FilterCount);
 
     partial void OnFilterCountChanged(int value) => OnPropertyChanged(nameof(FilterButtonText));
 
@@ -81,12 +88,12 @@ public partial class ResultatsViewModel : ObservableObject
         if (listing is null)
             return;
 
-        await Shell.Current.DisplayAlert("GetHome", $"Contacter {listing.OwnerName} à venir.", "OK");
+        await Shell.Current.GoToAsync("//main/messages");
     }
 
     [RelayCommand]
     private async Task LoadMoreAsync() =>
-        await Shell.Current.DisplayAlert("GetHome", "Chargement par lots (10 suivantes) à venir.", "OK");
+        await Shell.Current.DisplayAlert("GetHome", LocalizationService.Instance["Resultats_LoadMoreSoon"], "OK");
 
     [RelayCommand]
     private async Task GoBackAsync() => await Shell.Current.GoToAsync("..");

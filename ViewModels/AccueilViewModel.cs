@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using GetHome.Localization;
 using GetHome.Models;
 using GetHome.Services;
 
@@ -13,6 +14,13 @@ public partial class AccueilViewModel : ObservableObject
     public AccueilViewModel(IDataService dataService)
     {
         _dataService = dataService;
+        LocalizationService.Instance.PropertyChanged += OnCultureChanged;
+    }
+
+    private void OnCultureChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        OnPropertyChanged(nameof(Greeting));
+        OnPropertyChanged(nameof(AlertsText));
     }
 
     public ObservableCollection<SavedSearch> SavedSearches { get; } = new();
@@ -29,8 +37,8 @@ public partial class AccueilViewModel : ObservableObject
     private bool isBusy;
 
     public bool IsNotBusy => !IsBusy;
-    public string Greeting => $"Bonjour {UserName}";
-    public string AlertsText => $"{ActiveAlerts} alertes actives";
+    public string Greeting => string.Format(LocalizationService.Instance["Accueil_Greeting"], UserName);
+    public string AlertsText => string.Format(LocalizationService.Instance["Accueil_Alerts"], ActiveAlerts);
 
     partial void OnUserNameChanged(string value) => OnPropertyChanged(nameof(Greeting));
     partial void OnActiveAlertsChanged(int value) => OnPropertyChanged(nameof(AlertsText));
@@ -76,7 +84,7 @@ public partial class AccueilViewModel : ObservableObject
         if (listing is null)
             return;
 
-        await Shell.Current.DisplayAlert("GetHome", $"Contacter {listing.OwnerName} à venir.", "OK");
+        await Shell.Current.GoToAsync("//main/messages");
     }
 
     [RelayCommand]
